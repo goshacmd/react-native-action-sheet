@@ -145,24 +145,15 @@ export default class ActionSheet extends React.Component {
 
   render() {
     let { isVisible } = this.state;
-    let overlay = isVisible ? (
-      <Animated.View
-        style={[
-          styles.overlay,
-          {
-            opacity: this.state.overlayOpacity,
-          },
-        ]}
-      />
-    ) : null;
 
     let sheet = isVisible ? this._renderSheet() : null;
 
     return (
       <View style={{ flex: 1 }}>
         {React.Children.only(this.props.children)}
-        {overlay}
-        {sheet}
+        <Modal visible={isVisible} transparent onRequestClose={this._selectCancelButton}>
+          {sheet}
+        </Modal>
       </View>
     );
   }
@@ -175,39 +166,45 @@ export default class ActionSheet extends React.Component {
     let numOptions = this.state.options.options.length;
 
     return (
-      <Modal visible transparent onRequestClose={() => {}}>
-        <TouchableWithoutFeedback onPress={this._selectCancelButton}>
-          <Animated.View
-            needsOffscreenAlphaCompositing={this.state.isAnimating}
-            style={[
-              styles.sheetContainer,
-              {
-                opacity: this.state.sheetOpacity,
-                transform: [
-                  {
-                    translateY: this.state.sheetOpacity.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [this._actionSheetHeight, 0],
-                    }),
-                  },
-                ],
-              },
-            ]}>
-            <View style={styles.sheet}
-              onLayout={(event) => { this._actionSheetHeight = event.nativeEvent.layout.height }}>
-              <ActionGroup
-                options={this.state.options.options}
-                icons={this.state.options.icons}
-                destructiveButtonIndex={this.state.options.destructiveButtonIndex}
-                onSelect={this._onSelect}
-                startIndex={0}
-                length={numOptions}
-                textStyle={this.state.options.textStyle}
-              />
-            </View>
-          </Animated.View>
-        </TouchableWithoutFeedback>
-      </Modal>
+      <View style={{ flex: 1}}>
+        <Animated.View
+          style={[
+            styles.overlay,
+            {
+              opacity: this.state.overlayOpacity,
+            },
+          ]}
+        />
+        <Animated.View
+          needsOffscreenAlphaCompositing={this.state.isAnimating}
+          style={[
+            styles.sheetContainer,
+            {
+              opacity: this.state.sheetOpacity,
+              transform: [
+                {
+                  translateY: this.state.sheetOpacity.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [this._actionSheetHeight, 0],
+                  }),
+                },
+              ],
+            },
+          ]}>
+          <View style={styles.sheet}
+            onLayout={(event) => { this._actionSheetHeight = event.nativeEvent.layout.height }}>
+            <ActionGroup
+              options={this.state.options.options}
+              icons={this.state.options.icons}
+              destructiveButtonIndex={this.state.options.destructiveButtonIndex}
+              onSelect={this._onSelect}
+              startIndex={0}
+              length={numOptions}
+              textStyle={this.state.options.textStyle}
+            />
+          </View>
+        </Animated.View>
+      </View>
     );
   }
 
@@ -394,11 +391,7 @@ let styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   sheetContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
+    flex: 1,
     backgroundColor: 'transparent',
     alignItems: 'flex-end',
     justifyContent: 'center',

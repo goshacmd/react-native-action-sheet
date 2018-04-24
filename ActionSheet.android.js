@@ -16,6 +16,7 @@ import {
   TouchableWithoutFeedback,
   View,
   ScrollView,
+  Modal,
 } from 'react-native';
 
 type ActionSheetOptions = {
@@ -120,9 +121,11 @@ class ActionGroup extends React.Component {
     }
 
     return (
-      <View style={styles.groupContainer}>
-        <ScrollView>{optionViews}</ScrollView>
-      </View>
+      <Modal visible transparent onRequestClose={() => {}}>
+        <View style={styles.groupContainer}>
+          <ScrollView>{optionViews}</ScrollView>
+        </View>
+      </Modal>
     );
   }
 }

@@ -16,6 +16,7 @@ import {
   TouchableWithoutFeedback,
   View,
   ScrollView,
+  Modal,
 } from 'react-native';
 
 type ActionSheetOptions = {
@@ -144,24 +145,15 @@ export default class ActionSheet extends React.Component {
 
   render() {
     let { isVisible } = this.state;
-    let overlay = isVisible ? (
-      <Animated.View
-        style={[
-          styles.overlay,
-          {
-            opacity: this.state.overlayOpacity,
-          },
-        ]}
-      />
-    ) : null;
 
     let sheet = isVisible ? this._renderSheet() : null;
 
     return (
       <View style={{ flex: 1 }}>
         {React.Children.only(this.props.children)}
-        {overlay}
-        {sheet}
+        <Modal visible={isVisible} transparent onRequestClose={this._selectCancelButton}>
+          {sheet}
+        </Modal>
       </View>
     );
   }
@@ -174,7 +166,15 @@ export default class ActionSheet extends React.Component {
     let numOptions = this.state.options.options.length;
 
     return (
-      <TouchableWithoutFeedback onPress={this._selectCancelButton}>
+      <View style={{ flex: 1}}>
+        <Animated.View
+          style={[
+            styles.overlay,
+            {
+              opacity: this.state.overlayOpacity,
+            },
+          ]}
+        />
         <Animated.View
           needsOffscreenAlphaCompositing={this.state.isAnimating}
           style={[
@@ -204,7 +204,7 @@ export default class ActionSheet extends React.Component {
             />
           </View>
         </Animated.View>
-      </TouchableWithoutFeedback>
+      </View>
     );
   }
 
@@ -391,11 +391,7 @@ let styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   sheetContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
+    flex: 1,
     backgroundColor: 'transparent',
     alignItems: 'flex-end',
     justifyContent: 'center',

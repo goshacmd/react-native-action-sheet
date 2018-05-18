@@ -62,6 +62,7 @@ class ActionGroup extends React.Component {
   static propTypes = {
     options: PropTypes.array.isRequired,
     icons: PropTypes.array,
+    disabledButtonIndices: PropTypes.array,
     destructiveButtonIndex: PropTypes.number,
     onSelect: PropTypes.func.isRequired,
     startIndex: PropTypes.number.isRequired,
@@ -74,6 +75,7 @@ class ActionGroup extends React.Component {
       options,
       icons,
       destructiveButtonIndex,
+      disabledButtonIndices,
       onSelect,
       startIndex,
       length,
@@ -89,8 +91,11 @@ class ActionGroup extends React.Component {
 
     for (let i = startIndex; i < startIndex + length; i++) {
       let color = '#212121';
+      var isDisabled = disabledButtonIndices.indexOf(i) !== -1;
       if (i === destructiveButtonIndex) {
         color = '#d32f2f';
+      } else if (isDisabled) {
+        color = '#999';
       }
 
       let iconElement = undefined;

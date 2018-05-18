@@ -22,6 +22,7 @@ import {
 type ActionSheetOptions = {
   options: Array<string>,
   icons: ?Array<number>,
+  disabledButtonIndices: ?Array<number>,
   destructiveButtonIndex: ?number,
   cancelButtonIndex: ?number,
   textStyle: ?any,
@@ -30,6 +31,7 @@ type ActionSheetOptions = {
 type ActionGroupProps = {
   options: Array<string>,
   icons: ?Array<number>,
+    disabledButtonIndices: ?Array<number>,
   destructiveButtonIndex: ?number,
   onSelect: (i: number) => boolean,
   startIndex: number,
@@ -201,6 +203,7 @@ export default class ActionSheet extends React.Component {
             <ActionGroup
               options={this.state.options.options}
               icons={this.state.options.icons}
+              disabledButtonIndices={this.state.options.disabledButtonIndices}
               destructiveButtonIndex={this.state.options.destructiveButtonIndex}
               onSelect={this._onSelect}
               startIndex={0}

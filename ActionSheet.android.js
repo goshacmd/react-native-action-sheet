@@ -31,7 +31,7 @@ type ActionSheetOptions = {
 type ActionGroupProps = {
   options: Array<string>,
   icons: ?Array<number>,
-    disabledButtonIndices: ?Array<number>,
+  disabledButtonIndices: ?Array<number>,
   destructiveButtonIndex: ?number,
   onSelect: (i: number) => boolean,
   startIndex: number,
@@ -93,7 +93,7 @@ class ActionGroup extends React.Component {
 
     for (let i = startIndex; i < startIndex + length; i++) {
       let color = '#212121';
-      var isDisabled = disabledButtonIndices.indexOf(i) !== -1;
+      var isDisabled = disabledButtonIndices ? disabledButtonIndices.indexOf(i) !== -1 : false;
       if (i === destructiveButtonIndex) {
         color = '#d32f2f';
       } else if (isDisabled) {

@@ -115,7 +115,7 @@ class ActionGroup extends React.Component {
           key={i}
           pressInDelay={0}
           background={nativeFeedbackBackground}
-          onPress={() => onSelect(i)}
+          onPress={!isDisabled ? () => onSelect(i) : null}
           style={styles.button}>
           {iconElement}
           <Text style={[styles.text, { color }, textStyle]}>{options[i]}</Text>
